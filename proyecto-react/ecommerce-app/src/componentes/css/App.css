@@ -1,0 +1,72 @@
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.nav-link {
+  margin-right: 40px;
+}
+
+.card-inicio {
+  height: 100%;
+  margin-left: 0px;
+}
+
+.card-producto {
+  width: 20rem;
+  height: 100%;
+  margin-left: 0px;
+}
+
+.card-image {
+  max-height: 450px;
+  object-fit: contain;
+}
+
+.alert {
+  height: 30vh;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+.agregar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.inicio-link-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-link-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.button-link-container button {
+  margin-right: 30px; 
+}
+
+.carrito-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh; 
+}
+
+@media (max-width: 768px) {
+  .card-image {
+    max-height: 200px;
+  }
+}
