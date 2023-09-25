@@ -27,6 +27,7 @@ html {
 
 .card-image {
   max-height: 450px;
+  aspect-ratio: 3/2;
   object-fit: contain;
 }
 

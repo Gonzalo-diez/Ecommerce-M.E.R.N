@@ -56,6 +56,7 @@ const comentarioSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Producto', 
   },
+  nombre: String,
   fecha: {
     type: Date,
     default: Date.now,
@@ -245,13 +246,14 @@ app.post("/login", (req, res, next) => {
 
 // Método para agregar comentarios
 app.post('/productos/comentarios/agregar', async (req, res) => {
-  const { texto, usuarioId, productoId } = req.body;
+  const { texto, usuarioId, productoId, nombre } = req.body;
 
   try {
     const nuevoComentario = new Comentario({
       texto,
       usuario: usuarioId,
       producto: productoId,
+      nombre: nombre,
     });
 
     await nuevoComentario.save();

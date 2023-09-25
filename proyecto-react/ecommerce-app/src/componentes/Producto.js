@@ -8,6 +8,7 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
     const [producto, setProducto] = useState(null);
     const [comentarios, setComentarios] = useState([]);
     const [nuevoComentario, setNuevoComentario] = useState("");
+    const [nombre, setNombre] = useState("");
 
     useEffect(() => {
         const fetchProducto = async () => {
@@ -35,14 +36,20 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
         setNuevoComentario(event.target.value);
     };
 
+    const handleNombreChange = (event) => {
+        setNombre(event.target.value);
+    };
+
     const handleSubmitComentario = async () => {
         if (isAuthenticated) {
             try {
-                await axios.post(`http://localhost:8800/productos/comentarios/agregar`, {
+                const comentarioData = {
                     texto: nuevoComentario,
                     usuarioId: usuarioId,
                     productoId: id,
-                });
+                    nombre: nombre,
+                };
+                await axios.post(`http://localhost:8800/productos/comentarios/agregar`, comentarioData);
 
                 const comentariosRes = await axios.get(`http://localhost:8800/productos/comentarios/${id}`);
                 setComentarios(comentariosRes.data);
@@ -68,9 +75,9 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                     <Card.Body>
                         <Card.Title>{item.nombre}</Card.Title>
                         <Card.Text>marca: {item.marca}</Card.Text>
-                        <Card.Text>tipo: {item.tipo}</Card.Text>
-                        <Card.Text>precio: ${item.precio}</Card.Text>
-                        <Card.Text>stock: {item.stock}</Card.Text>
+                        <Card.Text>$<strong>{item.precio}</strong></Card.Text>
+                        <Card.Text>Cantidad: {item.stock}</Card.Text>
+                        <Card.Text>{item.descripcion}</Card.Text>
                         {isAuthenticated && (
                             <Button onClick={handleAddToCart} variant="primary">Agregar al Carrito</Button>
                         )}
@@ -80,15 +87,31 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
 
             <div className="comentarios-container">
                 <h3>Comentarios</h3>
-                {comentarios.map((comentario) => (
-                    <div key={comentario._id} className="comentario">
-                        <p>{comentario.texto}</p>
-                        <p>Fecha: {new Date(comentario.fecha).toLocaleString()}</p>
-                    </div>
-                ))}
+                {comentarios.length === 0 ? (
+                    <p>Sin comentarios</p>
+                ) : (
+                    comentarios.map((comentario) => (
+                        <div key={comentario._id} className="comentario">
+                            {comentario.nombre && (
+                                <p><strong>{comentario.nombre}:</strong></p>
+                            )}
+                            <p>{comentario.texto}</p>
+                            <p>Fecha: {new Date(comentario.fecha).toLocaleString()}</p>
+                        </div>
+                    ))
+                )}
                 {isAuthenticated && (
                     <div className="nuevo-comentario">
                         <Form>
+                            <Form.Group controlId="nuevoComentario">
+                                <Form.Label>Tu Nombre:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Ingresa tu nombre"
+                                    value={nombre}
+                                    onChange={handleNombreChange}
+                                />
+                            </Form.Group>
                             <Form.Group controlId="nuevoComentario">
                                 <Form.Label>Deja un comentario:</Form.Label>
                                 <Form.Control
