@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/App.css"
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = ({ setIsAuthenticated, setUsuario }) => {
   const [correoElectronico, setCorreoElectronico] = useState("");
   const [contrasena, setContrasena] = useState("");
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Login = ({ setIsAuthenticated }) => {
         contrasena: contrasena,
       });
       if (res.status === 200) {
+        setUsuario(true)
         setIsAuthenticated(true);
         navigate("/");
       }

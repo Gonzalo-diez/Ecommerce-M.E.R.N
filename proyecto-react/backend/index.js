@@ -46,6 +46,23 @@ const productoSchema = new mongoose.Schema({
 
 const Producto = mongoose.model("Producto", productoSchema);
 
+const comentarioSchema = new mongoose.Schema({
+  texto: String,
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  producto: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Producto', 
+  },
+  fecha: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Comentario = mongoose.model('Comentario', comentarioSchema);
 
 
 // Configuración de Passport para autenticación local
@@ -87,6 +104,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Método sección inicio
 app.get("/", async (req, res) => {
   try {
     const productos = await Producto.find({});
@@ -96,7 +114,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-
+// Método sección busqueda de productos según el tipo
 app.get("/productos/:tipo", async (req, res) => {
   const tipo = req.params.tipo;
 
@@ -109,11 +127,12 @@ app.get("/productos/:tipo", async (req, res) => {
   }
 });
 
+// Método sección busqueda del producto segun el id
 app.get("/productos/detalle/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    const productId = new mongoose.Types.ObjectId(id); // Utiliza 'new' para crear una instancia de ObjectId
+    const productId = new mongoose.Types.ObjectId(id); 
 
     const producto = await Producto.findOne({ _id: productId }).exec();
 
@@ -127,6 +146,24 @@ app.get("/productos/detalle/:id", async (req, res) => {
   }
 });
 
+// Método de busqueda de comentarios según el id
+app.get('/productos/comentarios/:id', async (req, res) => {
+  const productoId = req.params.id;
+
+  try {
+    const comentarios = await Comentario.find({ producto: productoId }).populate('usuario').exec();
+
+    if (!comentarios) {
+      return res.status(404).json({ error: 'Comentarios no encontrados' });
+    }
+
+    return res.json(comentarios);
+  } catch (err) {
+    return res.status(500).json({ error: 'Error en la base de datos', details: err.message });
+  }
+});
+
+// Método para agregar productos
 app.post("/agregarProductos", async (req, res) => {
   const {
     nombre,
@@ -149,7 +186,7 @@ app.post("/agregarProductos", async (req, res) => {
       imagen_url,
     });
 
-    await nuevoProducto.save(); 
+    await nuevoProducto.save();
 
     return res.json("Producto creado!!!");
   } catch (err) {
@@ -160,7 +197,7 @@ app.post("/agregarProductos", async (req, res) => {
   }
 });
 
-
+// Método de registro
 app.post("/registro", async (req, res, next) => {
   const { nombre, apellido, correo_electronico, contrasena } = req.body;
 
@@ -181,8 +218,7 @@ app.post("/registro", async (req, res, next) => {
   }
 });
 
-
-
+// Método login
 app.post("/login", (req, res, next) => {
   const { correo_electronico, contrasena } = req.body;
 
@@ -207,7 +243,28 @@ app.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-// Para actualizar un documento en Mongoose, puedes utilizar el método `findByIdAndUpdate`
+// Método para agregar comentarios
+app.post('/productos/comentarios/agregar', async (req, res) => {
+  const { texto, usuarioId, productoId } = req.body;
+
+  try {
+    const nuevoComentario = new Comentario({
+      texto,
+      usuario: usuarioId,
+      producto: productoId,
+    });
+
+    await nuevoComentario.save();
+
+    return res.json('Comentario agregado');
+  } catch (err) {
+    console.error('Error al guardar el comentario:', err);
+    return res.status(500).json({ error: 'Error en la base de datos', details: err.message });
+  }
+});
+
+
+// Método para actualizar el producto
 app.put("/productos/actualizarProducto/:id", async (req, res) => {
   const productId = req.params.id;
   const { nombre, marca, descripcion, precio, stock, tipo, imagen_url } = req.body;

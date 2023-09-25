@@ -15,7 +15,14 @@ html {
 .card-producto {
   width: 20rem;
   height: 100%;
-  margin-left: 0px;
+}
+
+.comentarios-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .card-image {

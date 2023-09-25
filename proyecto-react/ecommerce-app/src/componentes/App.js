@@ -16,6 +16,7 @@ import Layout from './Layout';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [carrito, setCarrito] = useState([]);
+  const [usuario, setUsuario] = useState(null);
 
   const addToCart = (producto) => {
     setCarrito([...carrito, producto]);
@@ -33,9 +34,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Inicio isAuthenticated={isAuthenticated} />} />
           <Route path="/productos/:tipo" element={<Tipo />} />
-          <Route path="/productos/detalle/:id" element={<Producto isAuthenticated={isAuthenticated} addToCart={addToCart} />} />
+          <Route path="/productos/detalle/:id" element={<Producto isAuthenticated={isAuthenticated} addToCart={addToCart} usuario={usuario} />} />
           <Route path="/carrito" element={<Carrito carrito={carrito} removeFromCart={removeFromCart} />} />
-          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUsuario={setUsuario} />} />
           <Route path="/registro" element={<Registro setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/agregarProductos" element={<AgregarProductos isAuthenticated={isAuthenticated} />} />
           <Route path="/productos/actualizarProducto/:id" element={<Actualizar isAuthenticated={isAuthenticated} />} />
