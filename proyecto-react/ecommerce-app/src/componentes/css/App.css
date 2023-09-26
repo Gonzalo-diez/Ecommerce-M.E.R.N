@@ -25,6 +25,10 @@ html {
   margin-bottom: 25px;
 }
 
+.eliminar-container img {
+  width: 20%;
+}
+
 .card-image {
   max-height: 450px;
   aspect-ratio: 3/2;
@@ -76,5 +80,9 @@ html {
 @media (max-width: 768px) {
   .card-image {
     max-height: 200px;
+  }
+
+  .eliminar-container img {
+    width: 60%;
   }
 }

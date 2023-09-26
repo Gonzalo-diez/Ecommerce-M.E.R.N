@@ -39,9 +39,8 @@ function Tipo() {
                             <Card.Body>
                                 <Card.Title>{item.nombre}</Card.Title>
                                 <Card.Text>marca: {item.marca}</Card.Text>
-                                <Card.Text>tipo: {item.tipo}</Card.Text>
-                                <Card.Text>precio: ${item.precio}</Card.Text>
-                                <Card.Text>stock: {item.stock}</Card.Text>
+                                <Card.Text>$<strong>{item.precio}</strong></Card.Text>
+                                <Card.Text>Cantidad: {item.stock}</Card.Text>
                                 <Button onClick={() => navigate(`/productos/detalle/${item._id}`)}>Ver más</Button>
                             </Card.Body>
                         </Card>

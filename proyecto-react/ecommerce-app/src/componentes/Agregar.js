@@ -100,7 +100,7 @@ function AgregarProductos({ isAuthenticated }) {
         <Form.Group controlId="tipo">
           <Form.Label>Tipo:</Form.Label>
           <Form.Select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-            <option>Seleccione</option>
+            <option>---</option>
             <option value="celulares">Celulares</option>
             <option value="indumentaria">Indumentaria</option>
             <option value="computadoras">Computadoras</option>

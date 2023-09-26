@@ -51,8 +51,8 @@ const Inicio = ({ isAuthenticated }) => {
                                     <Card.Title>{producto.nombre}</Card.Title>
                                     <Card.Text>marca: {producto.marca}</Card.Text>
                                     <Card.Text>tipo: {producto.tipo}</Card.Text>
-                                    <Card.Text>precio: ${producto.precio}</Card.Text>
-                                    <Card.Text>stock: {producto.stock}</Card.Text>
+                                    <Card.Text>$<strong>{producto.precio}</strong></Card.Text>
+                                    <Card.Text>Cantidad: {producto.stock}</Card.Text>
                                     <div className="d-flex justify-content-between">
                                     <Button variant="primary" onClick={() => navigate(`/productos/detalle/${producto._id}`)}>Ver más</Button>
                                         {isAuthenticated && (

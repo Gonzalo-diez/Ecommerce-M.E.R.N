@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap'; 
+import { IoPersonCircle } from "react-icons/io5";
 
 const Menu = () => {
   return (
@@ -16,7 +17,7 @@ const Menu = () => {
           <Nav.Link as={Link} to="/productos/autos">Autos</Nav.Link>
           <Nav.Link as={Link} to="/productos/libros">Libros</Nav.Link>
           <Nav.Link as={Link} to="/carrito">Carrito</Nav.Link>
-          <Nav.Link as={Link} to="/login">Login</Nav.Link>
+          <Nav.Link as={Link} to="/login"><IoPersonCircle /></Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
