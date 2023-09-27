@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+// Define el modelo de producto en Mongoose
 const productoSchema = new mongoose.Schema({
   nombre: String,
   marca: String,
@@ -46,6 +47,7 @@ const productoSchema = new mongoose.Schema({
 
 const Producto = mongoose.model("Producto", productoSchema);
 
+// Define el modelo de comentario en Mongoose
 const comentarioSchema = new mongoose.Schema({
   texto: String,
   usuario: {
