@@ -67,6 +67,38 @@ const comentarioSchema = new mongoose.Schema({
 
 const Comentario = mongoose.model('Comentario', comentarioSchema);
 
+const compraSchema = new mongoose.Schema({
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  productos: [
+    {
+      producto: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Producto',
+      },
+      cantidad: Number,
+    },
+  ],
+  direccion: {
+    pais: String,
+    localidad: String,
+    codigoPostal: String,
+    calle: String,
+    telefono: String,
+  },
+  metodoPago: {
+    tarjeta: String,
+  },
+  fechaCompra: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Compra = mongoose.model('Compra', compraSchema);
+
 
 // Configuración de Passport para autenticación local
 passport.use(
@@ -317,13 +349,13 @@ app.delete("/productos/borrarProducto/:id", async (req, res) => {
 });
 
 // Endpoint para realizar una compra
-app.post("/comprar", (req, res) => {
-  const productId = req.body.productId;
+app.post("/comprar", async (req, res) => {
+  const { productId, formData, cantidadComprada } = req.body; 
 
-  Producto.findById(productId, (err, product) => {
-    if (err) {
-      return res.status(500).json({ error: "Error en la base de datos", details: err.message });
-    }
+  try {
+    // Buscar el producto por su ID
+    const product = await Producto.findById(productId);
+
     if (!product) {
       return res.status(404).json({ error: "Producto no encontrado" });
     }
@@ -332,16 +364,43 @@ app.post("/comprar", (req, res) => {
       return res.status(400).json({ error: "Producto agotado" });
     }
 
-    // Actualizar el stock del producto después de la compra
-    product.stock -= 1;
+    // Verificar si la cantidad comprada es válida
+    if (cantidadComprada <= 0 || cantidadComprada > product.stock) {
+      return res.status(400).json({ error: "Cantidad no válida" });
+    }
 
-    product.save((saveErr, updatedProduct) => {
-      if (saveErr) {
-        return res.status(500).json({ error: "Error en la base de datos", details: saveErr.message });
-      }
-      return res.json({ message: "Compra exitosa, stock actualizado", producto: updatedProduct });
+    // Crear una instancia de Compra
+    const nuevaCompra = new Compra({
+      usuario: req.user._id, // Suponiendo que estás utilizando autenticación de usuario
+      productos: [
+        {
+          producto: product._id,
+          cantidad: req.body.cantidadComprada, // Utilizar la cantidad especificada en la solicitud
+        },
+      ],
+      direccion: {
+        pais: formData.pais,
+        localidad: formData.localidad,
+        codigoPostal: formData.codigoPostal,
+        calle: formData.calle,
+        telefono: formData.telefono,
+      },
+      metodoPago: {
+        tarjeta: formData.tarjeta,
+      },
     });
-  });
+
+    // Guardar la nueva compra en la base de datos
+    await nuevaCompra.save();
+
+    // Actualizar el stock del producto después de la compra
+    product.stock -= cantidadComprada;
+    await product.save();
+
+    return res.json({ message: "Compra exitosa, stock actualizado", producto: product });
+  } catch (error) {
+    return res.status(500).json({ error: "Error en la base de datos", details: error.message });
+  }
 });
 
 app.listen(8800, () => {

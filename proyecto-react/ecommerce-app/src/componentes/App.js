@@ -22,10 +22,16 @@ function App() {
     setCarrito([...carrito, producto]);
   };
 
-  const removeFromCart = (productoId) => {
-    const updatedCarrito = carrito.filter((producto) => producto.id !== productoId);
-    setCarrito(updatedCarrito);
+  const removeFromCart = (productId) => {
+    const updatedCarrito = [...carrito];
+    const index = updatedCarrito.findIndex((producto) => producto._id === productId);
+  
+    if (index !== -1) {
+      updatedCarrito.splice(index, 1);
+      setCarrito(updatedCarrito);
+    }
   };
+  
 
   return (
     <div className="App">

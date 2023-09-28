@@ -103,7 +103,7 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                 {isAuthenticated && (
                     <div className="nuevo-comentario">
                         <Form>
-                            <Form.Group controlId="nuevoComentario">
+                            <Form.Group controlId="nombre">
                                 <Form.Label>Tu Nombre:</Form.Label>
                                 <Form.Control
                                     type="text"
