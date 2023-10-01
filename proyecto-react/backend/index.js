@@ -67,6 +67,7 @@ const comentarioSchema = new mongoose.Schema({
 
 const Comentario = mongoose.model('Comentario', comentarioSchema);
 
+// Define el modelo de compra en Mongoose
 const compraSchema = new mongoose.Schema({
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
@@ -78,26 +79,18 @@ const compraSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Producto',
       },
-      cantidad: Number,
+      cantidad: Number, 
     },
   ],
-  direccion: {
-    pais: String,
-    localidad: String,
-    codigoPostal: String,
-    calle: String,
-    telefono: String,
-  },
-  metodoPago: {
-    tarjeta: String,
-  },
-  fechaCompra: {
+  total: Number,
+  fecha: {
     type: Date,
     default: Date.now,
   },
 });
 
 const Compra = mongoose.model('Compra', compraSchema);
+
 
 
 // Configuración de Passport para autenticación local
@@ -307,7 +300,7 @@ app.put("/productos/actualizarProducto/:id", async (req, res) => {
 
   try {
     const updatedProduct = await Producto.findByIdAndUpdate(
-      productId, // Utilizar el método findByIdAndUpdate para buscar y actualizar por ObjectId
+      productId,
       {
         nombre,
         marca,
@@ -350,10 +343,10 @@ app.delete("/productos/borrarProducto/:id", async (req, res) => {
 
 // Endpoint para realizar una compra
 app.post("/comprar", async (req, res) => {
-  const { productId, formData, cantidadComprada } = req.body; 
+  const { productId } = req.body;
+  const usuarioId = User._id;
 
   try {
-    // Buscar el producto por su ID
     const product = await Producto.findById(productId);
 
     if (!product) {
@@ -364,44 +357,24 @@ app.post("/comprar", async (req, res) => {
       return res.status(400).json({ error: "Producto agotado" });
     }
 
-    // Verificar si la cantidad comprada es válida
-    if (cantidadComprada <= 0 || cantidadComprada > product.stock) {
-      return res.status(400).json({ error: "Cantidad no válida" });
-    }
-
-    // Crear una instancia de Compra
-    const nuevaCompra = new Compra({
-      usuario: req.user._id, // Suponiendo que estás utilizando autenticación de usuario
-      productos: [
-        {
-          producto: product._id,
-          cantidad: req.body.cantidadComprada, // Utilizar la cantidad especificada en la solicitud
-        },
-      ],
-      direccion: {
-        pais: formData.pais,
-        localidad: formData.localidad,
-        codigoPostal: formData.codigoPostal,
-        calle: formData.calle,
-        telefono: formData.telefono,
-      },
-      metodoPago: {
-        tarjeta: formData.tarjeta,
-      },
-    });
-
-    // Guardar la nueva compra en la base de datos
-    await nuevaCompra.save();
-
-    // Actualizar el stock del producto después de la compra
-    product.stock -= cantidadComprada;
+    product.stock -= 1;
     await product.save();
 
+    const compra = new Compra({
+      usuario: usuarioId,
+      productos: [{ producto: productId, cantidad: 1 }], 
+      total: product.precio, 
+    });
+
+    await compra.save();
+
     return res.json({ message: "Compra exitosa, stock actualizado", producto: product });
-  } catch (error) {
-    return res.status(500).json({ error: "Error en la base de datos", details: error.message });
+  } catch (err) {
+    return res.status(500).json({ error: "Error en la base de datos", details: err.message });
   }
 });
+
+
 
 app.listen(8800, () => {
   console.log("Backend conectado");
