@@ -83,6 +83,13 @@ const compraSchema = new mongoose.Schema({
     },
   ],
   total: Number,
+  pais: String,
+  provincia: String,
+  localidad: String,
+  calle: String,
+  telefono: Number,
+  numero_tarjeta: Number,
+  numero_seguridad: Number,
   fecha: {
     type: Date,
     default: Date.now,
@@ -343,7 +350,7 @@ app.delete("/productos/borrarProducto/:id", async (req, res) => {
 
 // Endpoint para realizar una compra
 app.post("/comprar", async (req, res) => {
-  const { productId } = req.body;
+  const { productId, pais, provincia, localidad, calle, telefono, numero_tarjeta, numero_seguridad } = req.body;
   const usuarioId = User._id;
 
   try {
@@ -363,6 +370,13 @@ app.post("/comprar", async (req, res) => {
     const compra = new Compra({
       usuario: usuarioId,
       productos: [{ producto: productId, cantidad: 1 }], 
+      pais: pais, 
+      provincia: provincia, 
+      localidad: localidad, 
+      calle: calle, 
+      telefono: telefono, 
+      numero_tarjeta: numero_tarjeta, 
+      numero_seguridad: numero_seguridad, 
       total: product.precio, 
     });
 
