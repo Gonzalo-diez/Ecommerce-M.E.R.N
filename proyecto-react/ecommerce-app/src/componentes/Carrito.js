@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Form, Toast } from 'react-bootstrap';
+import { Button, Form, Toast, ToastContainer } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 
@@ -153,32 +153,34 @@ const Carrito = ({ carrito, removeFromCart }) => {
           <Button variant="primary" onClick={handleCompra}>Comprar</Button>
         )}
       </div>
-      <Toast
-        show={showToast}
-        onClose={() => setShowToast(false)}
-        delay={3000}
-        autohide
-        bg="success"
-        text="white"
-      >
-        <Toast.Header>
-          <strong className="mr-auto">Compra exitosa</strong>
-        </Toast.Header>
-        <Toast.Body>Tu compra se ha realizado con éxito.</Toast.Body>
-      </Toast>
-      <Toast
-        show={showEmptyCartToast}
-        onClose={() => setShowToast(false)}
-        delay={3000}
-        autohide
-        bg="danger"
-        text="white"
-      >
-        <Toast.Header>
-          <strong className="mr-auto">Carrito vacio</strong>
-        </Toast.Header>
-        <Toast.Body>El carrito está vacío. Agrega productos antes de comprar.</Toast.Body>
-      </Toast>
+      <ToastContainer position='bottom-center'>
+        <Toast
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={3000}
+          autohide
+          bg="success"
+          text="white"
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Compra exitosa</strong>
+          </Toast.Header>
+          <Toast.Body>Tu compra se ha realizado con éxito.</Toast.Body>
+        </Toast>
+        <Toast
+          show={showEmptyCartToast}
+          onClose={() => setShowToast(false)}
+          delay={3000}
+          autohide
+          bg="danger"
+          text="white"
+        >
+          <Toast.Header closeButton={false}>
+            <strong className="mr-auto">Carrito vacio</strong>
+          </Toast.Header>
+          <Toast.Body>El carrito está vacío. Agrega productos antes de comprar.</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Card, Button, Form } from 'react-bootstrap';
+import { Card, Button, Form, Toast, ToastContainer } from 'react-bootstrap';
 
 function Producto({ isAuthenticated, addToCart, usuario }) {
     const { id } = useParams();
@@ -9,6 +9,8 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
     const [comentarios, setComentarios] = useState([]);
     const [nuevoComentario, setNuevoComentario] = useState("");
     const [nombre, setNombre] = useState("");
+    const [showToast, setShowToast] = useState(false);
+    const [showToastComentario, setShowToastComentario] = useState(false);
 
     useEffect(() => {
         const fetchProducto = async () => {
@@ -28,6 +30,7 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
 
     const handleAddToCart = () => {
         addToCart(item);
+        setShowToast(true);
     };
 
     const usuarioId = usuario ? usuario._id : null;
@@ -53,8 +56,8 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
 
                 const comentariosRes = await axios.get(`http://localhost:8800/productos/comentarios/${id}`);
                 setComentarios(comentariosRes.data);
-
                 setNuevoComentario("");
+                setShowToastComentario(true);
             } catch (err) {
                 console.log(err);
             }
@@ -83,6 +86,21 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                         )}
                     </Card.Body>
                 </Card>
+                <ToastContainer position="middle-center">
+                    <Toast
+                        show={showToast}
+                        onClose={() => setShowToast(false)}
+                        delay={3000}
+                        autohide
+                        bg="success"
+                        text="white"
+                    >
+                        <Toast.Header>
+                            <strong className="mr-auto">Producto en carrito</strong>
+                        </Toast.Header>
+                        <Toast.Body>El producto se agrego a su carrito.</Toast.Body>
+                    </Toast>
+                </ToastContainer>
             </div>
 
             <div className="comentarios-container">
@@ -125,6 +143,19 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                                 Agregar Comentario
                             </Button>
                         </Form>
+                        <Toast
+                            show={showToastComentario}
+                            onClose={() => setShowToastComentario(false)}
+                            delay={3000}
+                            autohide
+                            bg="success"
+                            text="white"
+                        >
+                            <Toast.Header>
+                                <strong className="mr-auto">Comentario agregado</strong>
+                            </Toast.Header>
+                            <Toast.Body>Tu comentario se agrego.</Toast.Body>
+                        </Toast>
                     </div>
                 )}
             </div>

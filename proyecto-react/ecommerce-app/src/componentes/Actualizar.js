@@ -21,12 +21,12 @@ function Actualizar({ isAuthenticated }) {
             try {
                 const response = await axios.get(`http://localhost:8800/productos/detalle/${id}`);
                 const producto = response.data;
-    
+
                 if (!producto) {
                     console.error("Producto no encontrado");
                     return;
                 }
-    
+
                 setNombre(producto.nombre);
                 setMarca(producto.marca);
                 setDescripcion(producto.descripcion);
@@ -40,7 +40,7 @@ function Actualizar({ isAuthenticated }) {
         };
         fetchProducto();
     }, [id]);
-    
+
 
     const handleActualizar = async () => {
         if (!isAuthenticated) {
@@ -58,7 +58,7 @@ function Actualizar({ isAuthenticated }) {
                 tipo,
                 imagen_url: imagen,
             });
-    
+
             const response = await axios.put(`http://localhost:8800/productos/actualizarProducto/${id}`, {
                 nombre,
                 marca,
@@ -68,14 +68,14 @@ function Actualizar({ isAuthenticated }) {
                 tipo,
                 imagen_url: imagen,
             });
-    
+
             console.log(response.data.message);
             navigate("/");
         } catch (error) {
             console.error("Error en la actualización:", error);
         }
     };
-    
+
 
     return (
         <div className="agregar-container">

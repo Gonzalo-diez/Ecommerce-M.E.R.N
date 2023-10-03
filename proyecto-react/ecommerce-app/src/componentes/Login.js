@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Toast } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/App.css"
 
 const Login = ({ setIsAuthenticated, setUsuario }) => {
   const [correoElectronico, setCorreoElectronico] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const [showErrorToast, setShowErrorToast] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -24,6 +25,7 @@ const Login = ({ setIsAuthenticated, setUsuario }) => {
       }
     } catch (err) {
       console.log(err);
+      setShowErrorToast(true);
     }
   };
 
@@ -53,7 +55,20 @@ const Login = ({ setIsAuthenticated, setUsuario }) => {
           </Button>
           <Link to="/registro">Registro</Link>
         </div>
-        </Form>
+      </Form>
+      <Toast
+        show={showErrorToast}
+        onClose={() => setShowErrorToast(false)}
+        delay={3000}
+        autohide
+        bg="danger"
+        text="white"
+      >
+        <Toast.Header>
+          <strong className="mr-auto">Email o contraseña incorrectos</strong>
+        </Toast.Header>
+        <Toast.Body>Si usted no tiene cuenta registrese.</Toast.Body>
+      </Toast>
     </div>
   );
 };
