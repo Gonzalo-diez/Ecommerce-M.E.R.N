@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Toast } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Eliminar({ isAuthenticated }) {
     const [producto, setProducto] = useState(null);
+    const [showToast, setShowToast] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ function Eliminar({ isAuthenticated }) {
         }
         try {
             await axios.delete(`http://localhost:8800/productos/borrarProducto/${id}`);
+            setShowToast(true);
             navigate("/", { replace: true });
         } catch (error) {
             console.error("Error al eliminar producto:", error);
@@ -51,6 +53,19 @@ function Eliminar({ isAuthenticated }) {
             )}
             <Button variant="danger" onClick={handleEliminar} className="m-2">Sí, eliminar</Button>
             <Button variant="secondary" onClick={handleCancelar}>No, cancelar</Button>
+            <Toast
+                show={showToast}
+                onClose={() => setShowToast(false)}
+                delay={3000}
+                autohide
+                bg="warning"
+                text="white"
+            >
+                <Toast.Header>
+                    <strong className="mr-auto">Producto eliminado</strong>
+                </Toast.Header>
+                <Toast.Body>Se elimino el producto con éxito.</Toast.Body>
+            </Toast>
         </Container>
     );
 }

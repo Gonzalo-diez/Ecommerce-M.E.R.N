@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Toast } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/App.css"
 
@@ -14,6 +14,7 @@ function AgregarProductos({ isAuthenticated }) {
   const [stock, setStock] = useState("");
   const [url, setUrl] = useState("");
   const [tipo, setTipo] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const handleAgregar = async () => {
     if (!isAuthenticated) {
@@ -32,6 +33,7 @@ function AgregarProductos({ isAuthenticated }) {
         imagen_url: url
       });
 
+      setShowToast(true);
       console.log(response.data.message);
       navigate("/");
     } catch (error) {
@@ -111,6 +113,19 @@ function AgregarProductos({ isAuthenticated }) {
         </Form.Group>
         <Button variant="primary" onClick={handleAgregar} className="button-link-container">Agregar producto</Button>
       </Form>
+      <Toast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        delay={3000}
+        autohide
+        bg="success"
+        text="white"
+      >
+        <Toast.Header>
+          <strong className="mr-auto">Producto agregado</strong>
+        </Toast.Header>
+        <Toast.Body>Se agrego el producto con éxito.</Toast.Body>
+      </Toast>
     </div>
   );
 }

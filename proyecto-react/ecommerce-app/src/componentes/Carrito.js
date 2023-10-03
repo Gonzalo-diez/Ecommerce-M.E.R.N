@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Toast } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 
@@ -13,10 +13,13 @@ const Carrito = ({ carrito, removeFromCart }) => {
   const [telefono, setTelefono] = useState('');
   const [numeroTarjeta, setNumeroTarjeta] = useState('');
   const [numeroSeguridad, setNumeroSeguridad] = useState('');
+  const [showToast, setShowToast] = useState(false);
+  const [showEmptyCartToast, setShowEmptyCartToast] = useState(false);
+
 
   const handleCompra = async () => {
     if (carrito.length === 0) {
-      alert("El carrito está vacío. Agrega productos antes de comprar.");
+      setShowEmptyCartToast(true);
       return;
     }
 
@@ -24,7 +27,7 @@ const Carrito = ({ carrito, removeFromCart }) => {
       setShowCompraForm(true);
       return;
     }
-  
+
     try {
       for (const producto of carrito) {
         const productId = producto._id;
@@ -37,10 +40,11 @@ const Carrito = ({ carrito, removeFromCart }) => {
           calle,
           telefono,
           numero_tarjeta: numeroTarjeta,
-          numero_seguridad: numeroSeguridad, 
+          numero_seguridad: numeroSeguridad,
         });
         console.log(response.data);
         removeFromCart(productId);
+        setShowToast(true);
       }
 
       setShowCompraForm(false);
@@ -55,7 +59,7 @@ const Carrito = ({ carrito, removeFromCart }) => {
       console.error("Error al comprar:", error);
     }
   };
-  
+
   return (
     <div className="carrito-container">
       <div className="carrito">
@@ -149,6 +153,32 @@ const Carrito = ({ carrito, removeFromCart }) => {
           <Button variant="primary" onClick={handleCompra}>Comprar</Button>
         )}
       </div>
+      <Toast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        delay={3000}
+        autohide
+        bg="success"
+        text="white"
+      >
+        <Toast.Header>
+          <strong className="mr-auto">Compra exitosa</strong>
+        </Toast.Header>
+        <Toast.Body>Tu compra se ha realizado con éxito.</Toast.Body>
+      </Toast>
+      <Toast
+        show={showEmptyCartToast}
+        onClose={() => setShowToast(false)}
+        delay={3000}
+        autohide
+        bg="danger"
+        text="white"
+      >
+        <Toast.Header>
+          <strong className="mr-auto">Carrito vacio</strong>
+        </Toast.Header>
+        <Toast.Body>El carrito está vacío. Agrega productos antes de comprar.</Toast.Body>
+      </Toast>
     </div>
   );
 };
