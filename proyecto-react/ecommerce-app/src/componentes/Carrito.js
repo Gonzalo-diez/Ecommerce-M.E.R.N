@@ -64,7 +64,7 @@ const Carrito = ({ carrito, removeFromCart }) => {
           {carrito.map((producto) => (
             <li key={producto._id}>
               {producto.nombre} - ${producto.precio}
-              <Button variant="danger" onClick={() => removeFromCart(producto.id)}>Quitar</Button>
+              <Button variant="danger" onClick={() => removeFromCart(producto._id)} className="btn-eliminar">Quitar</Button>
             </li>
           ))}
         </ul>
@@ -142,7 +142,7 @@ const Carrito = ({ carrito, removeFromCart }) => {
                   required
                 />
               </Form.Group>
-              <Button variant="primary" onClick={handleCompra}>Realizar Compra</Button>
+              <Button variant="primary" onClick={handleCompra} className="btn-comprar">Realizar Compra</Button>
             </Form>
           </div>
         ) : (

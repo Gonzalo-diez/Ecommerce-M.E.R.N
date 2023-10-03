@@ -79,6 +79,19 @@ html {
   min-height: 30vh; 
 }
 
+.carrito-container .btn-eliminar {
+  margin-left: 5px;
+}
+
+.compra-form {
+  margin-bottom: 2rem;
+}
+
+.compra-form .btn-comprar {
+  margin-top: 15px;
+  margin-left: 25%;
+}
+
 @media (max-width: 768px) {
   .card-image {
     max-height: 200px;
@@ -87,4 +100,11 @@ html {
   .eliminar-container img {
     width: 60%;
   }
+}
+
+@media (max-width: 320px) {
+  .card-inicio {
+    margin-left: 10%;
+    width: 80%;
+  }  
 }
