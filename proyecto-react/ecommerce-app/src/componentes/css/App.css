@@ -26,6 +26,11 @@ html {
   margin-bottom: 25px;
 }
 
+.comentarios-container .btn-comentario {
+  margin-top: 8px;
+  margin-left: 16px;
+}
+
 .eliminar-container img {
   width: 20%;
 }

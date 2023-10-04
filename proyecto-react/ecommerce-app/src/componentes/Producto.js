@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Card, Button, Form, Toast, ToastContainer } from 'react-bootstrap';
+import { Card, Button, Form, Toast, ToastContainer, Row, Col, Pagination } from 'react-bootstrap';
 
 function Producto({ isAuthenticated, addToCart, usuario }) {
     const { id } = useParams();
@@ -11,6 +11,12 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
     const [nombre, setNombre] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [showToastComentario, setShowToastComentario] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const COMMENTS_PER_PAGE = 3;
+    const startIndex = (currentPage - 1) * COMMENTS_PER_PAGE;
+    const endIndex = startIndex + COMMENTS_PER_PAGE;
+    const displayedComments = comentarios.slice(startIndex, endIndex);
+
 
     useEffect(() => {
         const fetchProducto = async () => {
@@ -41,6 +47,10 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
 
     const handleNombreChange = (event) => {
         setNombre(event.target.value);
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
 
     const handleSubmitComentario = async () => {
@@ -108,15 +118,34 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                 {comentarios.length === 0 ? (
                     <p>Sin comentarios</p>
                 ) : (
-                    comentarios.map((comentario) => (
-                        <div key={comentario._id} className="comentario">
-                            {comentario.nombre && (
-                                <p><strong>{comentario.nombre}:</strong></p>
-                            )}
-                            <p>{comentario.texto}</p>
-                            <p>Fecha: {new Date(comentario.fecha).toLocaleString()}</p>
-                        </div>
-                    ))
+                    <Row>
+                        {displayedComments.map((comentario) => (
+                            <Col key={comentario._id} xs={12} md={6} lg={4}>
+                                <div className="comentario">
+                                    {comentario.nombre && (
+                                        <p><strong>{comentario.nombre}:</strong></p>
+                                    )}
+                                    <p>{comentario.texto}</p>
+                                    <p>Fecha: {new Date(comentario.fecha).toLocaleString()}</p>
+                                </div>
+                            </Col>
+                        ))}
+                    </Row>
+                )}
+                {comentarios.length > COMMENTS_PER_PAGE && (
+                    <div className="pagination-container">
+                        <Pagination>
+                            {Array.from({ length: Math.ceil(comentarios.length / COMMENTS_PER_PAGE) }, (_, i) => (
+                                <Pagination.Item
+                                    key={i + 1}
+                                    active={i + 1 === currentPage}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </Pagination.Item>
+                            ))}
+                        </Pagination>
+                    </div>
                 )}
                 {isAuthenticated && (
                     <div className="nuevo-comentario">
@@ -139,7 +168,7 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                                     onChange={handleComentarioChange}
                                 />
                             </Form.Group>
-                            <Button onClick={handleSubmitComentario} variant="primary">
+                            <Button onClick={handleSubmitComentario} variant="primary" className="btn-comentario">
                                 Agregar Comentario
                             </Button>
                         </Form>
