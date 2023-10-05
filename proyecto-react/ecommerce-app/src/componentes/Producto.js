@@ -134,7 +134,7 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                 )}
                 {comentarios.length > COMMENTS_PER_PAGE && (
                     <div className="pagination-container">
-                        <Pagination>
+                        <Pagination className="mt-3">
                             {Array.from({ length: Math.ceil(comentarios.length / COMMENTS_PER_PAGE) }, (_, i) => (
                                 <Pagination.Item
                                     key={i + 1}

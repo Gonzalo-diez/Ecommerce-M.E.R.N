@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Row, Col, Card, Button } from 'react-bootstrap'; 
+import { Row, Col, Card, Button, Pagination } from 'react-bootstrap'; 
 import './css/App.css';
 
 function Tipo() {
     const navigate = useNavigate();
     const { tipo } = useParams();
     const [producto, setProducto] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const fetchProducto = async () => {
@@ -21,7 +22,16 @@ function Tipo() {
         fetchProducto();
     }, [tipo]);
 
-    if (producto.length === 0) {
+    const productsPerPage = 6;
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = producto.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    if (currentProducts.length === 0) {
         return (
             <div className="d-flex justify-content-center align-items-center alert">
                 <p>No hay productos en este tipo.</p>
@@ -30,11 +40,11 @@ function Tipo() {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="d-flex flex-column align-items-center vh-100">
             <Row>
-                {producto.map((item) => (
-                    <Col key={item._id} md={6} lg={4}>
-                        <Card className="card-producto">
+                {currentProducts.map((item) => (
+                    <Col key={item._id} md={4}>
+                        <Card className="mt-5">
                             <Card.Img variant="top" src={item.imagen_url} alt={item.nombre}  className="img-fluid card-image" />
                             <Card.Body>
                                 <Card.Title>{item.nombre}</Card.Title>
@@ -47,9 +57,15 @@ function Tipo() {
                     </Col>
                 ))}
             </Row>
+            <Pagination className="mt-3">
+                {Array.from({ length: Math.ceil(producto.length / productsPerPage) }).map((_, index) => (
+                    <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+                        {index + 1}
+                    </Pagination.Item>
+                ))}
+            </Pagination>
         </div>
     );
 }
 
 export default Tipo;
-
