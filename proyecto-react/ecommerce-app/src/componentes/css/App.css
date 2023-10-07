@@ -1,14 +1,16 @@
-html {
-  width: 100%;
-  overflow-x: hidden;
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; 
 }
+
 
 .nav-link {
   margin-right: 40px;
 }
 
 .card-inicio {
-  height: 100%;
+  width: 100%;
   margin-left: 50px;
   margin-right: 50px;
 }
@@ -97,19 +99,10 @@ html {
   margin-left: 25%;
 }
 
-@media (max-width: 768px) {
-  .card-image {
-    max-height: 200px;
-  }
-
-  .eliminar-container img {
-    width: 60%;
-  }
-}
-
-@media (max-width: 320px) {
+@media (max-width: 428px) {
   .card-inicio {
-    margin-left: 10%;
-    width: 80%;
-  }  
+    width: 80%; 
+    margin-left: auto; 
+    margin-right: auto; 
+  }
 }

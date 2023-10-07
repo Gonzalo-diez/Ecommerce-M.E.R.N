@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Button, Form, Toast, ToastContainer, Row, Col, Pagination } from 'react-bootstrap';
+import { IoCart } from "react-icons/io5";
+import { BiSolidCommentAdd } from "react-icons/bi";
 
 function Producto({ isAuthenticated, addToCart, usuario }) {
     const { id } = useParams();
@@ -92,7 +94,7 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                         <Card.Text>Cantidad: {item.stock}</Card.Text>
                         <Card.Text>{item.descripcion}</Card.Text>
                         {isAuthenticated && (
-                            <Button onClick={handleAddToCart} variant="primary">Agregar al Carrito</Button>
+                            <Button onClick={handleAddToCart} variant="primary">Agregar al Carrito <IoCart /></Button>
                         )}
                     </Card.Body>
                 </Card>
@@ -169,7 +171,7 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                                 />
                             </Form.Group>
                             <Button onClick={handleSubmitComentario} variant="primary" className="btn-comentario">
-                                Agregar Comentario
+                               <BiSolidCommentAdd /> Comentario 
                             </Button>
                         </Form>
                         <Toast
