@@ -5,6 +5,7 @@ import Menu from './Menu';
 import Inicio from './Inicio';
 import Login from './Login';
 import Registro from './Registro';
+import Usuario from './Usuario';
 import Producto from './Producto';
 import AgregarProductos from './Agregar';
 import Tipo from './Tipo';
@@ -44,6 +45,7 @@ function App() {
           <Route path="/carrito" element={<Carrito carrito={carrito} removeFromCart={removeFromCart} />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUsuario={setUsuario} />} />
           <Route path="/registro" element={<Registro setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/usuario" element={<Usuario isAuthenticated={isAuthenticated} />} />
           <Route path="/agregarProductos" element={<AgregarProductos isAuthenticated={isAuthenticated} />} />
           <Route path="/productos/actualizarProducto/:id" element={<Actualizar isAuthenticated={isAuthenticated} />} />
           <Route path="/productos/borrarProducto/:id" element={<Eliminar isAuthenticated={isAuthenticated} />} />

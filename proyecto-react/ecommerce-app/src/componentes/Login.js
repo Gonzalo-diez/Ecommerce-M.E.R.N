@@ -21,7 +21,7 @@ const Login = ({ setIsAuthenticated, setUsuario }) => {
       if (res.status === 200) {
         setUsuario(true)
         setIsAuthenticated(true);
-        navigate("/");
+        navigate("/usuario");
       }
     } catch (err) {
       console.log(err);

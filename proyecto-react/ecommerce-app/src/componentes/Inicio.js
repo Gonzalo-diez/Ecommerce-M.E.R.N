@@ -46,7 +46,7 @@ const Inicio = ({ isAuthenticated }) => {
             <div className="text-center">
                 <h2>Bienvenido a la app</h2>
                 {isAuthenticated && ( 
-                    <Button onClick={handleAgregarProducto} className="mb-2"><IoAddCircleOutline />Agregar algún producto?</Button>
+                    <Button onClick={handleAgregarProducto} className="mb-2"><IoAddCircleOutline /> Agregar algún producto?</Button>
                 )}
             </div>
             <div>
@@ -62,7 +62,7 @@ const Inicio = ({ isAuthenticated }) => {
                                     <Card.Text>$<strong>{producto.precio}</strong></Card.Text>
                                     <Card.Text>Cantidad: {producto.stock}</Card.Text>
                                     <div className="d-flex justify-content-between">
-                                    <Button variant="primary" onClick={() => navigate(`/productos/detalle/${producto._id}`)}>Ver más</Button>
+                                        <Button variant="primary" onClick={() => navigate(`/productos/detalle/${producto._id}`)}>Ver más</Button>
                                         {isAuthenticated && (
                                             <div className="inicio-link-container">
                                                 <Button variant="warning" onClick={() => navigate(`/productos/actualizarProducto/${producto._id}`)}><IoPencil /></Button>
