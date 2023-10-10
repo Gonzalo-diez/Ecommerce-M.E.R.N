@@ -40,11 +40,11 @@ function Tipo() {
     }
 
     return (
-        <div className="d-flex flex-column align-items-center vh-100">
+        <div className="d-flex flex-column align-items-center min-vh-100">
             <Row>
                 {currentProducts.map((item) => (
                     <Col key={item._id} md={4}>
-                        <Card className="mt-5">
+                        <Card className="mt-5 card-categoria">
                             <Card.Img variant="top" src={item.imagen_url} alt={item.nombre}  className="img-fluid card-image" />
                             <Card.Body>
                                 <Card.Title>{item.nombre}</Card.Title>

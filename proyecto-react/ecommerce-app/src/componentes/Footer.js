@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { IoLogoFacebook, IoLogoTwitter, IoLogoInstagram } from "react-icons/io";
+import { BsLinkedin, BsGithub } from "react-icons/bs";
+import { BiLogoGmail } from "react-icons/bi";
 
 const Footer = () => {
     return (
@@ -13,13 +14,13 @@ const Footer = () => {
                     <Col md={6}>
                         <ul className="list-unstyled d-flex justify-content-end mb-0">
                             <li className="mx-2">
-                                <a href="#" className="text-light"><IoLogoFacebook /></a>
+                                <a href="www.linkedin.com/in/gdiezbuchanan" className="text-light"><BsLinkedin /></a>
                             </li>
                             <li className="mx-2">
-                                <a href="#" className="text-light"><IoLogoTwitter /></a>
+                                <a href="https://github.com/Gonzalo-diez" className="text-light"><BsGithub /></a>
                             </li>
                             <li className="mx-2">
-                                <a href="#" className="text-light"><IoLogoInstagram /></a>
+                                <a href="mailto:gonzalodiez97@gmail.com" className="text-light"><BiLogoGmail /></a>
                             </li>
                         </ul>
                     </Col>
