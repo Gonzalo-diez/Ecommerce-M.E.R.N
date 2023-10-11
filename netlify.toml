@@ -1,7 +1,8 @@
 [build]
-  command = "npm run build" # Comando para construir el frontend
-  publish = "ecommerce-app/build"  # Carpeta que contiene los archivos estáticos generados del frontend
+  base = "C:\Users\gonza\Desktop\Ecommerce\proyecto-react"
+  command = "npm run build"
+  publish = "ecommerce-app/build"  
 
 [functions]
-  directory = "backend" # Carpeta que contiene tu backend Node.js
+  directory = "backend"
 
