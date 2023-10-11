@@ -2,7 +2,3 @@
   base = "proyecto-react/ecommerce-app"
   command = "npm run build"
   publish = "ecommerce-app/build"  
-
-[functions]
-  directory = "proyecto-react/backend"
-
