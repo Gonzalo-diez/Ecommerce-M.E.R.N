@@ -1,6 +1,6 @@
 [build]
   base = "proyecto-react"
-  command = "npm run build"
+  command = "cd ecommerce-app && npm run build"
   publish = "ecommerce-app/build"  
 
 [functions]
