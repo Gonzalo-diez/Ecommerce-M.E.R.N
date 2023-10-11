@@ -4,5 +4,5 @@
   publish = "ecommerce-app/build"  
 
 [functions]
-  directory = "backend"
+  directory = "proyecto-react/backend"
 
