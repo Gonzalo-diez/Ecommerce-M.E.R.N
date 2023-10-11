@@ -1,5 +1,5 @@
 [build]
-  base = "C:\Users\gonza\Desktop\Ecommerce\proyecto-react"
+  base = "proyecto-react"
   command = "npm run build"
   publish = "ecommerce-app/build"  
 
