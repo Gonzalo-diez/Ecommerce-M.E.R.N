@@ -236,7 +236,6 @@ app.post("/agregarProductos", async (req, res) => {
   } = req.body;
 
   try {
-    // Crear el producto primero
     const nuevoProducto = new Producto({
       nombre,
       marca,
@@ -412,63 +411,6 @@ app.post("/comprar", async (req, res) => {
     return res.json({ message: "Compra exitosa, stock actualizado", producto: product });
   } catch (err) {
     return res.status(500).json({ error: "Error en la base de datos", details: err.message });
-  }
-});
-
-//Métodos para dashboard de usuario
-app.get("/usuario/:id/productos", async (req, res) => {
-  const usuarioId = req.params.id;
-
-  try {
-    const usuario = await User.findById(usuarioId);
-
-    if (!usuario) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-    const productosDelUsuario = await Producto.find({ usuario: usuarioId }).populate('usuario');
-
-
-    return res.json(productosDelUsuario);
-  } catch (error) {
-    return res.status(500).json({ error: "Error en la base de datos", details: error.message });
-  }
-})
-
-app.get("/usuario/:id/compras", async (req, res) => {
-  const usuarioId = req.params.id;
-
-  try {
-    const comprasDelUsuario = await Compra.find({ usuario: usuarioId });
-    return res.json(comprasDelUsuario);
-  } catch (error) {
-    return res.status(500).json({ error: "Error en la base de datos", details: error.message });
-  }
-})
-
-app.put("/usuario/:id", async (req, res) => {
-  const usuarioId = req.params.id;
-  const { nombre, apellido, correo_electronico, contrasena } = req.body;
-
-  try {
-    const usuarioActualizado = await User.findByIdAndUpdate(
-      usuarioId,
-      {
-        nombre,
-        apellido,
-        correo_electronico,
-        contrasena,
-        
-      },
-      { new: true }
-    );
-
-    if (!usuarioActualizado) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-
-    return res.json({ message: "Datos de usuario actualizados", usuario: usuarioActualizado });
-  } catch (error) {
-    return res.status(500).json({ error: "Error en la base de datos", details: error.message });
   }
 });
 

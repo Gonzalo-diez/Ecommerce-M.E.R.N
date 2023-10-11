@@ -19,9 +19,9 @@ const Login = ({ setIsAuthenticated, setUsuario }) => {
         contrasena: contrasena,
       });
       if (res.status === 200) {
-        setUsuario(true)
+        setUsuario(res.data.usuario);
         setIsAuthenticated(true);
-        navigate("/usuario");
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
