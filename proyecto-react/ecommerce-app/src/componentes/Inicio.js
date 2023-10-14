@@ -15,7 +15,7 @@ const Inicio = ({ isAuthenticated }) => {
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const res = await axios.get("http://localhost:8800/");
+                const res = await axios.get("https://ecommerce-mern-txdp.onrender.com/");
                 setProductos(res.data);
             } catch (err) {
                 console.log(err);

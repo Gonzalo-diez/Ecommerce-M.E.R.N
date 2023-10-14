@@ -23,9 +23,9 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
     useEffect(() => {
         const fetchProducto = async () => {
             try {
-                const res = await axios.get(`http://localhost:8800/productos/detalle/${id}`);
+                const res = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/detalle/${id}`);
                 setProducto(res.data);
-                const comentariosRes = await axios.get(`http://localhost:8800/productos/comentarios/${id}`);
+                const comentariosRes = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/comentarios/${id}`);
                 setComentarios(comentariosRes.data);
             } catch (err) {
                 console.log(err);
@@ -64,9 +64,9 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
                     productoId: id,
                     nombre: nombre,
                 };
-                await axios.post(`http://localhost:8800/productos/comentarios/agregar`, comentarioData);
+                await axios.post(`https://ecommerce-mern-txdp.onrender.com/productos/comentarios/agregar`, comentarioData);
 
-                const comentariosRes = await axios.get(`http://localhost:8800/productos/comentarios/${id}`);
+                const comentariosRes = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/comentarios/${id}`);
                 setComentarios(comentariosRes.data);
                 setNuevoComentario("");
                 setShowToastComentario(true);

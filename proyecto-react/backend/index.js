@@ -9,7 +9,7 @@ const app = express();
 
 
 // Conexión a la base de datos MongoDB
-mongoose.connect("mongodb://localhost:27017/Ecommerce", {
+mongoose.connect("mongodb://gonzalo:contrase%C3%B1a123@localhost:27017/Ecommerce?authMechanism=DEFAULT", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -151,6 +151,15 @@ passport.deserializeUser((id, done) => {
     done(err, user);
   });
 });
+
+const corsOptions = {
+  origin: 'https://mercadoexpress-front.netlify.app/', // Reemplaza con la URL de tu aplicación de Netlify
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(express.json());
 app.use(cors());

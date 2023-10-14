@@ -32,7 +32,7 @@ const Carrito = ({ carrito, removeFromCart }) => {
       for (const producto of carrito) {
         const productId = producto._id;
 
-        const response = await axios.post("http://localhost:8800/comprar", {
+        const response = await axios.post("https://ecommerce-mern-txdp.onrender.com/comprar", {
           productId,
           pais,
           provincia,

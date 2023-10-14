@@ -14,7 +14,7 @@ const Registro = ({ setIsAuthenticated }) => {
   const handleRegistro = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8800/registro", {
+      const res = await axios.post("https://ecommerce-mern-txdp.onrender.com/registro", {
         nombre: nombre,
         apellido: apellido,
         correo_electronico: correoElectronico,
