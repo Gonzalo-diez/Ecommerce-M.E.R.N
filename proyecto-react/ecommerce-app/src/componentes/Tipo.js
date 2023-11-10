@@ -13,7 +13,7 @@ function Tipo() {
     useEffect(() => {
         const fetchProducto = async () => {
             try {
-                const res = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/${tipo}`);
+                const res = await axios.get(`http://localhost:8800/productos/${tipo}`);
                 setProducto(res.data);
             } catch (err) {
                 console.log(err);

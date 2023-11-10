@@ -23,9 +23,9 @@ function Producto({ isAuthenticated, addToCart, usuario }) {
     useEffect(() => {
         const fetchProducto = async () => {
             try {
-                const res = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/detalle/${id}`);
+                const res = await axios.get(`http://localhost:8800/productos/detalle/${id}`);
                 setProducto(res.data);
-                const comentariosRes = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/comentarios/${id}`);
+                const comentariosRes = await axios.get(`http://localhost:8800/productos/comentarios/${id}`);
                 setComentarios(comentariosRes.data);
             } catch (err) {
                 console.log(err);

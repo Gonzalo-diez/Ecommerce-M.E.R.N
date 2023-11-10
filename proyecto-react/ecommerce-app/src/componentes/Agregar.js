@@ -22,7 +22,7 @@ function AgregarProductos({ isAuthenticated }) {
       return;
     }
     try {
-      const response = await axios.post("https://ecommerce-mern-txdp.onrender.com/agregarProductos", {
+      const response = await axios.post("http://localhost:8800/agregarProductos", {
         nombre,
         marca,
         descripcion,

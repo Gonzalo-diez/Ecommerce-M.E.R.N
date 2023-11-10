@@ -12,7 +12,7 @@ function Eliminar({ isAuthenticated }) {
     useEffect(() => {
         const fetchProducto = async () => {
             try {
-                const datosProducto = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/detalle/${id}`);
+                const datosProducto = await axios.get(`http://localhost:8800/productos/detalle/${id}`);
                 setProducto(datosProducto.data);
             } catch (error) {
                 console.error("Error al obtener el producto:", error);
@@ -28,7 +28,7 @@ function Eliminar({ isAuthenticated }) {
             return;
         }
         try {
-            await axios.delete(`https://ecommerce-mern-txdp.onrender.com/productos/borrarProducto/${id}`);
+            await axios.delete(`http://localhost:8800/productos/borrarProducto/${id}`);
             navigate("/", { replace: true });
         } catch (error) {
             console.error("Error al eliminar producto:", error);

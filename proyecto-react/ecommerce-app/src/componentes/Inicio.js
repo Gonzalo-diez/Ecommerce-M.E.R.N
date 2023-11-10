@@ -15,7 +15,7 @@ const Inicio = ({ isAuthenticated }) => {
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const res = await axios.get("https://ecommerce-mern-txdp.onrender.com/");
+                const res = await axios.get("http://localhost:8800/");
                 setProductos(res.data);
             } catch (err) {
                 console.log(err);
@@ -26,7 +26,7 @@ const Inicio = ({ isAuthenticated }) => {
 
     const handleEliminarProducto = async (productId) => {
         try {
-            navigate(`/productos/borrarProducto/${productId}`);
+            navigate(`http://localhost:8800/productos/borrarProducto/${productId}`);
         } catch (err) {
             console.log(err);
         }

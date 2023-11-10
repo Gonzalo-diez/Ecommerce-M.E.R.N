@@ -19,7 +19,7 @@ function Actualizar({ isAuthenticated }) {
     useEffect(() => {
         const fetchProducto = async () => {
             try {
-                const response = await axios.get(`https://ecommerce-mern-txdp.onrender.com/productos/detalle/${id}`);
+                const response = await axios.get(`http://localhost:8800/productos/detalle/${id}`);
                 const producto = response.data;
 
                 if (!producto) {
@@ -59,7 +59,7 @@ function Actualizar({ isAuthenticated }) {
                 imagen_url: imagen,
             });
 
-            const response = await axios.put(`https://ecommerce-mern-txdp.onrender.com/productos/actualizarProducto/${id}`, {
+            const response = await axios.put(`http://localhost:8800/productos/actualizarProducto/${id}`, {
                 nombre,
                 marca,
                 descripcion,
